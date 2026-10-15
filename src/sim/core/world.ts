@@ -1211,7 +1211,8 @@ export class World {
         if (p.v.lane === e.v.lane) continue; // same lane: ordinary car-following does it
         const raw = p.s - p.v.len - e.s;
         // already alongside a merger that cannot move: the through-lane driver goes first
-        if (e.v.lane === A && raw < 0.3 && p.v.v < 0.5 && end - p.s < 5) continue;
+        // (closer than the 1 m a courteous merger needs to cut in, or both would wait for good)
+        if (e.v.lane === A && raw < 1.2 && p.v.v < 0.5 && end - p.s < 5) continue;
         const relief = 9 * clamp((end - e.s - 15) / (Z - 15), 0, 1);
         const gap = raw + relief;
         if (gap < e.v.zipGap) {

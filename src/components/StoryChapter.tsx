@@ -1,6 +1,6 @@
 // A chapter told as a guided walkthrough on one large stage:
 // setup → what goes wrong today → the cost → the fix → the result → the difference.
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
 import type { Chapter as ChapterData } from '../data/chapters.ts';
 import type { Story, SummaryLine } from '../data/stories.ts';
@@ -9,6 +9,7 @@ import { byId } from '../sim/scenarios/index.ts';
 import type { MetricDef } from '../sim/scenarios/types.ts';
 import { compare, duration, fmtValue } from '../lib/format.ts';
 import { SimStage, type SimStageHandle } from './SimStage.tsx';
+import { ShareCurve } from './ShareCurve.tsx';
 import { ArrowRight, External, Pause, Play, Restart } from './icons.tsx';
 import { ThemeToggle } from './Sections.tsx';
 
@@ -40,6 +41,13 @@ export function StoryChapter({ ch, story, index }: { ch: ChapterData; story: Sto
   }, [step, ready, s]);
 
   const go = useCallback((d: number) => setStep((x) => Math.max(0, Math.min(steps.length - 1, x + d))), [steps.length]);
+
+  // the slider (or a tap on the share curve) jumps to the final step to show the result
+  const pickShare = (x: number) => {
+    setShare(x);
+    if (step < steps.length - 1) setStep(steps.length - 1);
+    setAuto(false);
+  };
 
   // auto-play: hold each step for its duration, stop at the end
   useEffect(() => {
@@ -217,16 +225,9 @@ export function StoryChapter({ ch, story, index }: { ch: ChapterData; story: Sto
 
           {/* try it · live numbers · evidence */}
           <div className="story-panel grid gap-x-10 gap-y-8 p-5 md:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
-            <ShareSlider
-              id={`${ch.id}-share`}
-              label={story.slider}
-              share={share}
-              onChange={(x) => {
-                setShare(x);
-                if (step < steps.length - 1) setStep(steps.length - 1);
-                setAuto(false);
-              }}
-            />
+            <ShareSlider id={`${ch.id}-share`} label={story.slider} share={share} onChange={pickShare}>
+              <ShareCurve id={ch.id} metrics={def.metrics} words={story.curve} label={ch.result.label} share={share} onPick={pickShare} />
+            </ShareSlider>
             <LiveNumbers metrics={def.metrics} names={story.names} a={m?.a} b={m?.b} />
             <div className="lg:col-start-1 lg:row-start-2">
               <div className="panel-eyebrow">On real roads</div>
@@ -250,7 +251,19 @@ export function StoryChapter({ ch, story, index }: { ch: ChapterData; story: Sto
   );
 }
 
-function ShareSlider({ id, label, share, onChange }: { id: string; label: string; share: number; onChange: (x: number) => void }) {
+function ShareSlider({
+  id,
+  label,
+  share,
+  onChange,
+  children,
+}: {
+  id: string;
+  label: string;
+  share: number;
+  onChange: (x: number) => void;
+  children?: ReactNode;
+}) {
   const pct = Math.round(share * 100);
   const tone = pct > 60 ? 'var(--good)' : pct > 25 ? 'var(--warn)' : 'var(--bad)';
   return (
@@ -269,6 +282,7 @@ function ShareSlider({ id, label, share, onChange }: { id: string; label: string
         <span>everybody</span>
       </div>
       <p className="mt-3 text-[13px] leading-snug text-[var(--ink-2)]">Changes the swalpa-adjust road only. Today’s road stays as it is.</p>
+      {children}
     </div>
   );
 }
