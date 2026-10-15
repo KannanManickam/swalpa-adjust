@@ -61,7 +61,11 @@ The film is the older night-time, two-diorama version and is not part of the dep
 ```bash
 npm run sim:test                         # every scenario: 0%, 50%, 100% civic
 node scripts/simcompare.ts zipper 300 4  # one scenario, averaged over 4 random seeds
+node scripts/sharecurve.ts               # every slider position × 10 seeds → src/data/curves.json (~10 min)
+node scripts/dev/curvelines.ts           # the measured curves and the line each chapter says about them
 ```
+
+The "How many of us need to adjust?" chart under each chapter's slider is drawn from `src/data/curves.json`; re-run `scripts/sharecurve.ts` after changing a simulation.
 
 Every call-out in the guided chapters is checked against the simulation it points at:
 
@@ -73,6 +77,7 @@ node scripts/dev/phverify.ts             # 04 lane & gap: cut-ins, the backward-
 node scripts/dev/bbverify.ts             # 05 bay: stops in running lanes vs in the bay
 node scripts/dev/zbverify.ts             # 06 zebra: light runners, near misses, jaywalking
 node scripts/dev/storyshots.ts <dir> <chapterId> day   # screenshot every step (dev server running)
+node scripts/dev/curveshot.ts <dir> 1440 day          # screenshot every chapter's share curve (BASE=dev server URL)
 ```
 
 ## How it's built

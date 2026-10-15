@@ -1,5 +1,6 @@
 // Guided, step-by-step explanations for a chapter: problem first, then the fix.
 import type { Rect } from '../render/Stage.ts';
+import type { CurveWords } from '../lib/curve.ts';
 
 export interface StoryStep {
   /** short label for the step dots */
@@ -49,6 +50,8 @@ export interface Story {
   legend: { color: string; text: string; pre?: string }[];
   /** slider label: who adjusts in the swalpa-adjust world */
   slider: string;
+  /** how the "how many of us need to adjust?" line talks about who adjusts and what improves */
+  curve: CurveWords;
   summary: SummaryLine[];
   /** one line of fine print under the result card */
   note: string;
@@ -610,6 +613,7 @@ export const STORIES: Record<string, Story> = {
       { color: '#ff8a1f', pre: 'lane that', text: 'closes' },
     ],
     slider: 'Drivers who zip',
+    curve: { who: 'drivers zip', whoIng: 'drivers zipping', gain: 'the queue is {already}{change}' },
     summary: [
       { key: 'queue', label: 'Queue behind the barricade', show: 'bars' },
       { key: 'trip', label: 'Time to get past', show: 'pair', format: 'duration' },
@@ -626,6 +630,7 @@ export const STORIES: Record<string, Story> = {
       { color: '#ff8a1f', text: 'side street' },
     ],
     slider: 'Drivers who wait for room',
+    curve: { who: 'drivers wait for room', whoIng: 'drivers waiting for room', gain: '{change} vehicles {already}get through' },
     summary: [
       { key: 'thru', label: 'Vehicles getting through, per minute', show: 'bars' },
       { key: 'sideThru', label: 'Side street, across per minute', show: 'pair' },
@@ -642,6 +647,7 @@ export const STORIES: Record<string, Story> = {
       { color: '#2f6fed', text: 'going straight' },
     ],
     slider: 'Straight-goers who keep out of the free left',
+    curve: { who: 'straight-goers keep out', whoIng: 'straight-goers keeping out', gain: 'the wait to turn left is {already}{change}' },
     summary: [
       { key: 'leftDelay', label: 'Delay for each left-turner', show: 'bars' },
       { key: 'straightDelay', label: 'Delay going straight', show: 'pair' },
@@ -659,6 +665,7 @@ export const STORIES: Record<string, Story> = {
       { color: '#2f6fed', text: 'moving' },
     ],
     slider: 'Drivers who hold their lane',
+    curve: { who: 'drivers hold their lane', whoIng: 'drivers holding their lane', gain: 'traffic {already}moves {change}' },
     summary: [
       { key: 'speed', label: 'Average speed', show: 'bars' },
       { key: 'stopped', label: 'At a standstill', show: 'pair' },
@@ -675,6 +682,7 @@ export const STORIES: Record<string, Story> = {
       { color: '#2f6fed', text: 'through traffic' },
     ],
     slider: 'Drivers who use the bay',
+    curve: { who: 'drivers use the bay', whoIng: 'drivers using the bay', gain: 'traffic past the stop {already}moves {change}' },
     summary: [
       { key: 'zone', label: 'Speed past the stop', show: 'bars' },
       { key: 'blocked', label: 'A running lane blocked', show: 'pair' },
@@ -692,6 +700,7 @@ export const STORIES: Record<string, Story> = {
       { color: '#2f6fed', pre: 'other', text: 'vehicles' },
     ],
     slider: 'Drivers and walkers who keep the deal',
+    curve: { who: 'of us keep the deal', whoIng: 'of us keeping the deal', gain: 'there are {already}{change} near misses' },
     summary: [
       { key: 'near', label: 'Near misses with people walking, so far', show: 'bars' },
       { key: 'jay', label: 'Crossing away from the zebra', show: 'pair' },
