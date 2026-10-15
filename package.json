@@ -1,0 +1,44 @@
+{
+  "name": "swalpa-adjust",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Swalpa Adjust Maadi: an interactive look at how everyday road habits jam Bengaluru, and how a few seconds of patience unjams it.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --port 5179",
+    "build:film": "VITE_FILM=1 vite build",
+    "typecheck": "tsc -b",
+    "sim:test": "node scripts/simtest.ts",
+    "film:render": "node scripts/render-film.ts \"http://localhost:5179/?film&capture\""
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "@fontsource-variable/geist-mono": "^5.3.0",
+    "@fontsource/baloo-tamma-2": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "@vercel/analytics": "2.0.1",
+    "lenis": "^1.3.26",
+    "motion": "^14.2.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "three": "^0.186.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^26.6.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/three": "^0.186.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "playwright-core": "^1.64.0",
+    "prettier": "^3.9.10",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2",
+    "vite": "^8.3.4"
+  },
+  "engines": {
+    "node": ">=22.12"
+  }
+}

@@ -1,0 +1,7 @@
+# Only the website goes to Vercel. The film renders (video/, ~150 MB) stay on this machine.
+video/
+dist/
+node_modules/
+.DS_Store
+*.log
+tsconfig.tsbuildinfo

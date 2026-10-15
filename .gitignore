@@ -1,0 +1,10 @@
+node_modules
+dist
+.DS_Store
+video/
+.vercel
+tsconfig.tsbuildinfo
+*.log
+
+# working notes for local AI sessions (contain local paths)
+docs/RESUME-PROMPT.md
