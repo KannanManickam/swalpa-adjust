@@ -13,13 +13,15 @@ import { Footer, Method } from './components/Method.tsx';
 // build made with VITE_FILM=1 (see README). It is never part of the deployed site.
 const FILM_ENABLED = import.meta.env.DEV || import.meta.env.VITE_FILM === '1';
 const Film = FILM_ENABLED ? lazy(() => import('./components/Film.tsx')) : null;
+const Teaser = FILM_ENABLED ? lazy(() => import('./teaser/Teaser.tsx')) : null;
 
 export function App() {
   const params = new URLSearchParams(window.location.search);
   const [film, setFilm] = useState(FILM_ENABLED && (params.has('film') || window.location.hash === '#film'));
+  const teaser = FILM_ENABLED && params.has('teaser');
 
   useEffect(() => {
-    if (film) return;
+    if (film || teaser) return;
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduce) return;
     const lenis = new Lenis({ lerp: 0.11, wheelMultiplier: 0.95 });
@@ -46,8 +48,15 @@ export function App() {
       document.removeEventListener('click', onClick);
       lenis.destroy();
     };
-  }, [film]);
+  }, [film, teaser]);
 
+  if (teaser && Teaser) {
+    return (
+      <Suspense fallback={<div className="h-screen bg-[#e4e9ef]" />}>
+        <Teaser />
+      </Suspense>
+    );
+  }
   if (film && Film) {
     return (
       <Suspense fallback={<div className="h-screen bg-black" />}>

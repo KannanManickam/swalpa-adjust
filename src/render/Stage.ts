@@ -105,6 +105,8 @@ export class Stage {
   private trackOff = new THREE.Vector3();
   private trackWant = new THREE.Vector3();
   private trackClock = 0;
+  /** jump straight to the tracked point on the next frame (after a cut) instead of easing */
+  private trackSnap = false;
   private pointer = { x: 0, y: 0, tx: 0, ty: 0 };
   private metricsTimer = 0;
   private divider: THREE.Mesh | null = null;
@@ -471,6 +473,7 @@ export class Stage {
   /** Point the camera at a world (or both) and a region of it. */
   setFocus(f: Focus | null, duration = 1.3) {
     this.focus = f;
+    this.trackSnap = duration <= 0;
     this.applyLift();
     this.applyVisibility();
     this.reframe(duration);
@@ -663,7 +666,9 @@ export class Stage {
         s.anno.update(annos, this.camera, c.clientWidth, c.clientHeight, t, s.root.visible);
       }
     }
-    if (this.composer) this.composer.render();
+    // the composer only exists for the night-time bloom; its render targets have no MSAA,
+    // so the day view renders straight to the (anti-aliased) canvas
+    if (this.composer && this.theme.bloom) this.composer.render();
     else this.renderer.render(this.scene, this.camera);
     this.updateLabels();
   }
@@ -681,7 +686,9 @@ export class Stage {
       const cx = Math.max(b.minX + hx, Math.min(b.maxX - hx, p.x));
       const cy = Math.max(b.minY + hy, Math.min(b.maxY - hy, p.y));
       this.trackWant.set(cx - (r.minX + r.maxX) / 2, 0, cy - (r.minY + r.maxY) / 2);
+      if (this.trackSnap) this.trackOff.copy(this.trackWant);
     }
+    this.trackSnap = false;
     const dt = Math.min(0.1, this.clock - this.trackClock);
     this.trackClock = this.clock;
     this.trackOff.lerp(this.trackWant, 1 - Math.exp(-dt * 1.4));

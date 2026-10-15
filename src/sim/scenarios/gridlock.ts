@@ -224,15 +224,26 @@ function gridDef(id: string, warmup: number, rate: number, gate: number): Scenar
             h: 0.6,
           });
         } else if (mode === 'fix') {
-          let n = 0;
+          // one label per approach: skip a lane right next to one already labelled
+          const placed: { x: number; y: number }[] = [];
           for (const a of approaches) {
-            if (a.node !== focus || n >= 2 || !green(a)) continue;
+            if (a.node !== focus || placed.length >= 2 || !green(a)) continue;
             const f = front(a);
             if (!f || !f.civic) continue;
             const room = w.exitSpace(a.conn.next[0]).free;
             if (room >= f.len + f.s0 + 1) continue;
-            out.push({ kind: 'tag', id: `wl${f.id}`, ...at(f), text: 'Waits: no room on the other side', tone: 'good', ring: 3, side: n ? 'down' : 'up' });
-            n++;
+            const p = at(f);
+            if (placed.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < 9)) continue;
+            out.push({
+              kind: 'tag',
+              id: `wl${a.lane.id}`,
+              ...p,
+              text: 'Waits: no room on the other side',
+              tone: 'good',
+              ring: 3,
+              side: placed.length ? 'down' : 'up',
+            });
+            placed.push(p);
           }
           const mover = focus.connectors.flatMap((c) => c.vehicles).find((v) => v.flags.road === 1 && v.v > 2);
           if (mover) out.push({ kind: 'tag', id: `sm${mover.id}`, ...at(mover), text: 'Side street crosses', tone: 'good', ring: 2.6 });

@@ -215,7 +215,7 @@ export function StoryChapter({ ch, story, index }: { ch: ChapterData; story: Sto
             </div>
           </SimStage>
 
-          {/* try it · live numbers · evidence */}
+          {/* try it · simulation numbers · evidence */}
           <div className="story-panel grid gap-x-10 gap-y-8 p-5 md:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.3fr)]">
             <ShareSlider
               id={`${ch.id}-share`}
@@ -244,7 +244,7 @@ export function StoryChapter({ ch, story, index }: { ch: ChapterData; story: Sto
             </div>
           </div>
         </div>
-        <p className="mt-3 px-1 text-xs text-[var(--color-ink-3)]">Live microsimulation. {ch.simNote}</p>
+        <p className="mt-3 px-1 text-xs text-[var(--color-ink-3)]">A traffic simulation, not real-time data. {ch.simNote}</p>
       </div>
     </section>
   );
@@ -281,7 +281,7 @@ function LiveNumbers({ metrics, names, a, b }: { metrics: MetricDef[]; names: St
   return (
     <div className="lg:col-start-2 lg:row-span-2 lg:row-start-1">
       <div className="panel-eyebrow flex items-center gap-2">
-        <span className="live-dot" /> Live numbers
+        <span className="live-dot" /> Simulation numbers
       </div>
       <div className="hero-metric mt-3">
         <div className="flex items-baseline justify-between gap-3">
@@ -324,7 +324,7 @@ function Change({ c, big }: { c: ReturnType<typeof compare>; big?: boolean }) {
   return <span className={`change num ${cls} ${big ? 'is-big' : ''}`}>{c.text}</span>;
 }
 
-/** The result in two or three lines, drawn to scale, from the live simulation. */
+/** The result in two or three lines, drawn to scale, from the running simulation. */
 function Summary({ metrics, story, a, b }: { metrics: MetricDef[]; story: Story; a?: M; b?: M }) {
   const defOf = (l: SummaryLine) => metrics.find((d) => d.key === l.key)!;
   const fmt = (l: SummaryLine, v: number | undefined) => (v === undefined ? '—' : l.format === 'duration' ? duration(v) : withUnit(defOf(l), v));
@@ -368,7 +368,7 @@ function Summary({ metrics, story, a, b }: { metrics: MetricDef[]; story: Story;
           );
         })}
       </div>
-      <p className="text-[12px] leading-snug opacity-60">Live from the simulation. {story.note}</p>
+      <p className="text-[12px] leading-snug opacity-60">From the simulation. {story.note}</p>
     </div>
   );
 }

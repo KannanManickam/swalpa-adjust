@@ -4,8 +4,6 @@ import '@fontsource-variable/geist';
 import '@fontsource-variable/geist-mono';
 import '@fontsource/instrument-serif/400.css';
 import '@fontsource/instrument-serif/400-italic.css';
-import '@fontsource/baloo-tamma-2/500.css';
-import '@fontsource/baloo-tamma-2/600.css';
 import './styles.css';
 import { App } from './App.tsx';
 import { ThemeProvider } from './lib/theme.tsx';

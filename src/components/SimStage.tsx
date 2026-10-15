@@ -93,7 +93,7 @@ export const SimStage = forwardRef<SimStageHandle, Props>(function SimStage(
     const canvas = document.createElement('canvas');
     canvas.className = 'absolute inset-0 h-full w-full';
     canvas.setAttribute('role', 'img');
-    canvas.setAttribute('aria-label', 'Live traffic simulation');
+    canvas.setAttribute('aria-label', 'Traffic simulation');
     canvasHost.current.appendChild(canvas);
     try {
       stageRef.current = new Stage({

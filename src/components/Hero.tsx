@@ -1,4 +1,4 @@
-// The landing view: the headline beside one live city, shown either as it is today or with
+// The landing view: the headline beside one simulated city, shown either as it is today or with
 // everyone waiting for room. Same stage card and Today / Swalpa adjust idea as the six chapters.
 import { useEffect, useRef, useState } from 'react';
 import { AnimatePresence, motion } from 'motion/react';
@@ -63,7 +63,7 @@ export function Hero() {
           <span className="serif block text-[3.4rem] sm:text-[4.6rem] min-[900px]:text-[clamp(3.2rem,5.4vw,6rem)]">
             Swalpa adjust <em className="text-[var(--brand-ink)]">maadi.</em>
           </span>
-          <span className="kn mt-2 block text-xl text-[var(--color-ink-2)] md:text-2xl">ಸ್ವಲ್ಪ ಅಡ್ಜಸ್ಟ್ ಮಾಡಿ · “adjust a little”</span>
+          <span className="mt-3 block text-xl text-[var(--color-ink-2)] md:text-2xl">“Adjust a little.”</span>
         </h1>
         <p className="mt-5 max-w-[520px] text-[1.05rem] leading-relaxed text-[var(--color-ink-2)] md:text-lg">
           Six everyday habits jam our roads. Fixing them takes <span className="font-medium text-[var(--color-ink)]">a few seconds of patience</span>.
@@ -124,7 +124,7 @@ export function Hero() {
             </div>
           </SimStage>
         </div>
-        {/* live numbers for both roads; tap one to look at it */}
+        {/* simulation numbers for both roads; tap one to look at it */}
         <div className="story-panel grid grid-cols-2 gap-2 p-3 md:p-4">
           {(['a', 'b'] as World[]).map((w) => (
             <button key={w} onClick={() => pick(w)} aria-pressed={view === w} className="live-col">

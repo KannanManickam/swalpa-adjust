@@ -1,8 +1,8 @@
-# Swalpa Adjust Maadi · ಸ್ವಲ್ಪ ಅಡ್ಜಸ್ಟ್ ಮಾಡಿ
+# Swalpa Adjust Maadi
 
 An interactive, simulated look at the six everyday road habits that jam Bengaluru, and how a few seconds of patience unjams it.
 
-Each habit is a live **microsimulation**, told as a guided walkthrough on one large 3D stage: the situation, what goes wrong today, what it costs, the fix, the result, and a result card. Call-outs are pinned to the actual vehicles, and vehicles are coloured to explain what they are doing. Behind the stage run two worlds of the same road: *status quo* (nobody adjusts) and *swalpa adjust* (a share of drivers you choose with a slider). Both get exactly the same vehicles arriving at the same moments. Only behaviour differs, and the numbers update live. Day view by default; the sun/moon button switches to night.
+Each habit is a **traffic microsimulation** (not real-time data), told as a guided walkthrough on one large 3D stage: the situation, what goes wrong today, what it costs, the fix, the result, and a result card. Call-outs are pinned to the actual vehicles, and vehicles are coloured to explain what they are doing. Behind the stage run two worlds of the same road: *status quo* (nobody adjusts) and *swalpa adjust* (a share of drivers you choose with a slider). Both get exactly the same vehicles arriving at the same moments. Only behaviour differs, and the numbers update live. Day view by default; the sun/moon button switches to night.
 
 | # | Habit | What the simulation shows |
 |---|---|---|
@@ -13,7 +13,7 @@ Each habit is a live **microsimulation**, told as a guided walkthrough on one la
 | 05 | **The Bay:** buses and autos stopping in the lane | a running lane deleted vs a proper bus bay |
 | 06 | **Red Means Red:** amber-running, zebra-blocking, jaywalking | near misses with pedestrians vs a crossing that works |
 
-Also on the page: a live city grid on the landing screen that switches between *Today* and *Swalpa adjust*, Bengaluru's numbers as small charts (TomTom 2025, transport and traffic-police data), a hotspot map with the longest recorded queues, a "your few seconds" queue calculator, and sources. Off the page for now: the pledge-card generator (`RoadCode.tsx`) and the 90-second film (local only, see below).
+Also on the page: a simulated city grid on the landing screen that switches between *Today* and *Swalpa adjust*, Bengaluru's numbers as small charts (TomTom 2025, transport and traffic-police data), a hotspot map with the longest recorded queues, a "your few seconds" queue calculator, and sources. Off the page for now: the pledge-card generator (`RoadCode.tsx`) and the 90-second film (local only, see below).
 
 ## Run it
 
@@ -36,6 +36,13 @@ npx vercel --prod   # publish
 ```
 
 Or push the folder to GitHub and import it at vercel.com; it detects Vite. `.gitignore` also leaves out `video/`.
+
+## The 60-second teaser (local only)
+
+A square (1080×1080) teaser for social media, built from the same simulations and call-outs as the chapters. The shot list is in `src/teaser/timeline.ts`; `node scripts/dev/teasercheck.ts` replays it headless and reports, per shot, how much of the time the call-outs its caption relies on are on screen.
+
+- **Watch it:** `http://localhost:5178/?teaser` with `npm run dev` running (space pauses, r restarts).
+- **Record it:** `npm run build:film && npm run preview`, then `npm run teaser:render` (writes `video/swalpa-adjust-teaser.mp4`).
 
 ## The 90-second film (local only)
 

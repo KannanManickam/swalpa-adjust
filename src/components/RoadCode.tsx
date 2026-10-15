@@ -236,9 +236,9 @@ function drawCard(c: HTMLCanvasElement, name: string, idx: number, theme: ThemeN
 
   g.fillStyle = T.band;
   g.fillRect(0, H - 190, W, 190);
-  g.font = '600 46px "Baloo Tamma 2", sans-serif';
+  g.font = 'italic 400 54px "Instrument Serif", serif';
   g.fillStyle = T.accent;
-  g.fillText('ಸ್ವಲ್ಪ ಅಡ್ಜಸ್ಟ್ ಮಾಡಿ', 90, H - 105);
+  g.fillText('Swalpa adjust maadi.', 90, H - 105);
   g.font = '400 28px "Geist Variable", sans-serif';
   g.fillStyle = T.foot;
   g.fillText('A few seconds of patience. A city in motion. #SwalpaAdjust', 90, H - 60);

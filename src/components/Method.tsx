@@ -156,7 +156,7 @@ export function Footer() {
               <div className="text-lg font-semibold">
                 Swalpa<span className="text-[var(--brand-ink)]">Adjust</span>
               </div>
-              <div className="kn text-sm text-[var(--color-ink-3)]">ಸ್ವಲ್ಪ ಅಡ್ಜಸ್ಟ್ ಮಾಡಿ</div>
+              <div className="text-sm text-[var(--color-ink-3)]">Swalpa adjust maadi: adjust a little</div>
             </div>
           </div>
           <p className="serif mt-8 max-w-[640px] text-4xl leading-tight md:text-5xl">

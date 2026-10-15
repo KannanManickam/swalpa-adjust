@@ -4,7 +4,6 @@
   --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'Geist Mono Variable', ui-monospace, monospace;
   --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
-  --font-kn: 'Baloo Tamma 2', 'Noto Sans Kannada', sans-serif;
 
   --color-bg: #f4f6f9;
   --color-bg-2: #e9edf2;
@@ -112,10 +111,6 @@ html.lenis body {
   font-family: var(--font-serif);
   font-weight: 400;
   letter-spacing: -0.01em;
-}
-
-.kn {
-  font-family: var(--font-kn);
 }
 
 /* ---------- surfaces ---------- */
@@ -1120,4 +1115,113 @@ button.queue-row:not(:disabled):hover,
   background: var(--press);
   color: var(--color-ink);
   font-weight: 560;
+}
+
+/* ---------- social teaser (1080×1080, local only) ---------- */
+.teaser-box .t-card {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  max-width: 100%;
+  padding: 26px 32px 28px;
+  border-radius: 30px;
+  background: rgb(255 255 255 / 0.95);
+  box-shadow: 0 24px 60px -30px rgb(15 23 42 / 0.45);
+}
+.teaser-box .t-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 6px 12px;
+  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+}
+.teaser-box .t-chip .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 99px;
+  background: #fff;
+}
+.teaser-box .t-chip.is-today {
+  background: #e2364a;
+}
+.teaser-box .t-chip.is-fix {
+  background: #0f9d63;
+}
+.teaser-box .t-title {
+  font-size: 52px;
+  font-weight: 650;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+.teaser-box .t-sub {
+  font-size: 32px;
+  line-height: 1.2;
+  color: #4b5563;
+}
+.teaser-box .t-source {
+  font-size: 18px;
+  color: #7b8494;
+}
+.teaser-box .t-stamp {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 18px 36px 22px;
+  border-radius: 28px;
+  background: #0f9d63;
+  color: #fff;
+  box-shadow: 0 24px 60px -24px rgb(15 157 99 / 0.6);
+}
+.teaser-box .t-value {
+  font-size: 104px;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+.teaser-box .t-label {
+  max-width: 420px;
+  font-size: 32px;
+  font-weight: 560;
+  line-height: 1.15;
+}
+/* call-outs on the stage: no real-time fades (the recorder steps frames faster than real time) */
+.teaser-box .anno-tag,
+.teaser-box .anno-bracket,
+.teaser-box .anno-badge {
+  opacity: 1;
+  transition: none;
+}
+.teaser-box .anno-tag.out,
+.teaser-box .anno-bracket.out,
+.teaser-box .anno-badge.out {
+  opacity: 0;
+}
+/* call-outs on the stage, sized to read at feed size */
+.teaser-box .anno-tag span,
+.teaser-box .anno-bracket span {
+  font-size: 25px;
+  padding: 8px 18px;
+  white-space: nowrap;
+  max-width: none;
+}
+.teaser-box .anno-tag::after {
+  width: 3px;
+  height: 40px;
+}
+.teaser-box .anno-badge {
+  width: 44px;
+  height: 44px;
+  margin: -22px 0 0 -22px;
+  font-size: 22px;
+  border-width: 3px;
+}
+.teaser-box .place-tag {
+  display: none;
 }

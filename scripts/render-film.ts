@@ -1,6 +1,8 @@
 // Renders the in-browser film to an MP4, frame by frame (deterministic, so it is
 // smooth regardless of machine speed). Needs a running server (npm run build && npm run preview) and ffmpeg.
-//   node scripts/render-film.ts [url] [out.mp4] [fps] [width] [height]
+//   node scripts/render-film.ts [url] [out.mp4] [fps] [width] [height] [supersample]
+// supersample 2 renders every frame at twice the size and scales it down, which smooths the
+// shimmer of thin lines and small vehicles in wide shots.
 import { spawn } from 'node:child_process';
 import { chromium } from 'playwright-core';
 
@@ -9,9 +11,10 @@ const out = process.argv[3] ?? 'video/swalpa-adjust-film.mp4';
 const fps = Number(process.argv[4] ?? 30);
 const W = Number(process.argv[5] ?? 1920);
 const H = Number(process.argv[6] ?? 1080);
+const SS = Number(process.argv[7] ?? 1);
 
 const browser = await chromium.launch({ channel: 'chrome', headless: true, args: ['--use-angle=metal', '--enable-gpu', '--ignore-gpu-blocklist'] });
-const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: 1 });
+const page = await browser.newPage({ viewport: { width: W, height: H }, deviceScaleFactor: SS });
 page.on('pageerror', (e) => console.error('[pageerror]', e.message));
 await page.goto(url, { waitUntil: 'networkidle' });
 await page.waitForFunction(() => !!(window as unknown as { __film?: unknown }).__film, null, { timeout: 60000 });
@@ -34,6 +37,7 @@ const ff = spawn(
     'mjpeg',
     '-i',
     '-',
+    ...(SS > 1 ? ['-vf', `scale=${W}:${H}:flags=lanczos`] : []),
     '-c:v',
     'libx264',
     '-pix_fmt',

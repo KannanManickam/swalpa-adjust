@@ -44,10 +44,12 @@ for (const share of [0, 1]) {
           const k2 = v.lane.vehicles;
           ok('victim: left-turner stopped right behind a straight-goer', v.moves[0] === 'L' && v.v < 0.5 && k2[k2.indexOf(v) + 1]?.moves[0] === 'S');
         }
-        if (mode === 'fix' && a.text.startsWith('Turns left on red') && v) {
-          const from = w.lanes.find((l) => l.moves?.L?.lane === v.lane)!;
-          const fsl = from.stopLines[0];
-          ok('fix: left-turner moving through its turn while its approach is red', v.v > 2 && fsl.signal.state(fsl.group) !== 'G');
+        if (mode === 'fix' && a.text.startsWith('Turns left on red')) {
+          // the label has a fixed id and moves between turners: find the vehicle it is pinned to
+          const t = w.vehicles.find((x) => x.lane.connector && Math.hypot(x.pose().x - a.x, x.pose().y - a.y) < 0.5);
+          const from = t && w.lanes.find((l) => l.moves?.L?.lane === t.lane);
+          const fsl = from?.stopLines[0];
+          ok('fix: left-turner moving through its turn while its approach is red', !!t && !!fsl && t.v > 2 && fsl.signal.state(fsl.group) !== 'G');
         }
         if (mode === 'fix' && a.text.startsWith('Going straight') && v)
           ok('fix: straight-goer waiting in a straight lane', v.lane.index > 0 && v.moves[0] === 'S' && v.v < 0.5);

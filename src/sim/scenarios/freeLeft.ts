@@ -165,7 +165,8 @@ export const freeLeft: ScenarioDef = {
           }
         }
         if (lastTurner)
-          out.push({ kind: 'tag', id: `tl${lastTurner.id}`, ...at(lastTurner), text: 'Turns left on red: the lane is free', tone: 'good', ring: 2.4 });
+          // one label that moves to the next turner, rather than two overlapping
+          out.push({ kind: 'tag', id: 'tl', ...at(lastTurner), text: 'Turns left on red: the lane is free', tone: 'good', ring: 2.4 });
         let shown = 0;
         for (const lanes of approaches) {
           if (!red(lanes[1]) || shown) continue;

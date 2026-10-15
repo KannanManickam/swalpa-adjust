@@ -41,7 +41,12 @@ for (const share of [0, 1]) {
           ok('stuck: stopped inside a box', !!v && v.v < 0.6 && inSquare);
         }
         if (a.text.startsWith('Green light') && v) pending.push({ id: v.id, t: w.t, s0: v.s, laneId: v.lane.id });
-        if (a.text.startsWith('Waits') && v) ok('waits: careful driver, stopped', v.civic && v.v < 0.5);
+        if (a.text.startsWith('Waits')) {
+          // keyed by approach lane: the label sits on that lane's front vehicle
+          const lane = w.lanes.find((l) => l.id === Number(a.id.slice(2)));
+          const f = lane?.vehicles[lane.vehicles.length - 1];
+          ok('waits: careful driver, stopped', !!f && f.civic && f.v < 0.5);
+        }
       }
     }
     // a "can't cross" vehicle should still be short of the box 3 s later

@@ -445,7 +445,7 @@ function OutroCard({ local }: { local: number }) {
         </div>
       </Reveal>
       <Reveal at={3.2} local={local}>
-        <div className="kn mt-4 text-[2vw] text-[var(--color-ink-2)]">ಸ್ವಲ್ಪ ಅಡ್ಜಸ್ಟ್ ಮಾಡಿ</div>
+        <div className="mt-4 text-[2vw] text-[var(--color-ink-2)]">Adjust a little.</div>
       </Reveal>
     </div>
   );
