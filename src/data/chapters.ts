@@ -19,8 +19,8 @@ export interface Chapter {
   evidence: Evidence[];
   simNote: string;
   icon: 'zip' | 'box' | 'left' | 'lane' | 'bay' | 'signal';
-  /** headline simulation result: nobody adjusts vs everybody adjusts, averaged over 3 seeded 5-minute runs (scripts/simcompare.ts) */
-  result: { label: string; today: number; fix: number; unit: string; better: 'lower' | 'higher'; time?: boolean; down?: string; up?: string };
+  /** how to talk about the headline result; the numbers themselves come from curves.json (data/results.ts) */
+  result: { label: string; unit: string; better: 'lower' | 'higher'; time?: boolean; down?: string; up?: string };
 }
 
 export const CHAPTERS: Chapter[] = [
@@ -50,7 +50,7 @@ export const CHAPTERS: Chapter[] = [
     ],
     simNote: 'Two lanes become one at Namma Metro barricades. Both worlds get the same 33 vehicles a minute. Only the merging changes.',
     icon: 'zip',
-    result: { label: 'queue behind the barricade', today: 832, fix: 134, unit: 'm', better: 'lower', down: 'shorter' },
+    result: { label: 'queue behind the barricade', unit: 'm', better: 'lower', down: 'shorter' },
   },
   {
     id: 'gridlock',
@@ -78,7 +78,7 @@ export const CHAPTERS: Chapter[] = [
     ],
     simNote: 'Four signalised junctions. The main road is backed up further down; the side streets have plenty of room, unless someone blocks the box.',
     icon: 'box',
-    result: { label: 'vehicles getting through', today: 9, fix: 80, unit: '/min', better: 'higher', up: 'more' },
+    result: { label: 'vehicles getting through', unit: '/min', better: 'higher', up: 'more' },
   },
   {
     id: 'freeleft',
@@ -106,7 +106,7 @@ export const CHAPTERS: Chapter[] = [
     ],
     simNote: 'A busy main road crosses a side street. More than half the traffic turns left. In the status quo, straight-goers squeeze into the kerb lane.',
     icon: 'left',
-    result: { label: 'wait to turn left', today: 9.9, fix: 2.3, unit: 's', better: 'lower', down: 'shorter' },
+    result: { label: 'wait to turn left', unit: 's', better: 'lower', down: 'shorter' },
   },
   {
     id: 'phantom',
@@ -134,7 +134,7 @@ export const CHAPTERS: Chapter[] = [
     ],
     simNote: 'A 440 m loop of three-lane road at the same density in both worlds. No signal, no merge, no obstacle.',
     icon: 'lane',
-    result: { label: 'speed on the same road', today: 17.6, fix: 27.4, unit: 'km/h', better: 'higher', up: 'faster' },
+    result: { label: 'speed on the same road', unit: 'km/h', better: 'higher', up: 'faster' },
   },
   {
     id: 'busbay',
@@ -162,7 +162,7 @@ export const CHAPTERS: Chapter[] = [
     ],
     simNote: 'A BMTC stop with a proper bay on a three-lane road. Every bus and some autos stop. In the status quo they stop wherever they are.',
     icon: 'bay',
-    result: { label: 'speed past the bus stop', today: 25, fix: 38, unit: 'km/h', better: 'higher', up: 'faster' },
+    result: { label: 'speed past the bus stop', unit: 'km/h', better: 'higher', up: 'faster' },
   },
   {
     id: 'zebra',
@@ -190,6 +190,6 @@ export const CHAPTERS: Chapter[] = [
     ],
     simNote: 'A signal-controlled zebra on a busy two-way road. The same people arrive to cross in both worlds.',
     icon: 'signal',
-    result: { label: 'near misses with people walking, in 6 minutes', today: 35, fix: 0, unit: '', better: 'lower', down: 'fewer' },
+    result: { label: 'near misses with people walking, in 6 minutes', unit: '', better: 'lower', down: 'fewer' },
   },
 ];

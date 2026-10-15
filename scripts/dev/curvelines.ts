@@ -13,6 +13,8 @@ for (const id in data.curves) {
   const g = gainShare(c);
   console.log(`\n${id} · ${def.label} (${def.unit || 'count'})`);
   for (let i = 0; i < c.mean.length; i += 2)
-    console.log(`  ${String(i * 5).padStart(3)}%  ${c.mean[i].toFixed(1).padStart(6)}  (${c.min[i].toFixed(1)}–${c.max[i].toFixed(1)})  gain ${Math.round(g[i] * 100)}%`);
+    console.log(
+      `  ${String(i * 5).padStart(3)}%  ${c.mean[i].toFixed(1).padStart(6)}  (${c.min[i].toFixed(1)}–${c.max[i].toFixed(1)})  gain ${Math.round(g[i] * 100)}%`,
+    );
   console.log(`  → ${curveHeadline(c, def, STORIES[id].curve)}`);
 }

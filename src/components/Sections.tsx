@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { animate, motion, useInView } from 'motion/react';
 import { STATS, type Stat, type Viz } from '../data/stats.ts';
 import { CHAPTERS, type Chapter } from '../data/chapters.ts';
-import { compare } from '../lib/format.ts';
+import { resultOf } from '../data/results.ts';
 import { ChevronDown, Close, External, HabitIcon, Menu, Moon, Sun } from './icons.tsx';
 import { useTheme } from '../lib/theme.tsx';
 
@@ -396,31 +396,33 @@ export function HabitIndex() {
                 </span>
               </div>
               <h3 className="serif mt-4 text-[1.9rem] leading-tight">{c.title}</h3>
-              <ResultBars r={c.result} />
+              <ResultBars id={c.id} r={c.result} />
             </motion.a>
           ))}
         </div>
-        <p className="mt-4 text-xs text-[var(--color-ink-3)]">Simulated: nobody adjusting vs everybody adjusting, averaged over three runs.</p>
+        <p className="mt-4 text-xs text-[var(--color-ink-3)]">
+          Simulated: nobody adjusting vs everybody adjusting, each averaged over {resultOf(CHAPTERS[0].id).runs} five-minute runs.
+        </p>
       </div>
     </section>
   );
 }
 
-/** Nobody adjusts vs everybody adjusts, to scale. */
-function ResultBars({ r }: { r: Chapter['result'] }) {
-  const max = Math.max(r.today, r.fix, 1e-6);
-  const c = compare({ key: '', label: r.label, unit: r.unit, better: r.better, time: r.time, down: r.down, up: r.up }, r.today, r.fix);
+/** Nobody adjusts vs everybody adjusts, to scale (measured curves, data/results.ts). */
+function ResultBars({ id, r }: { id: string; r: Chapter['result'] }) {
+  const { today, fix, change } = resultOf(id);
+  const max = Math.max(today, fix, 1e-6);
   const fmt = (v: number) =>
     `${v.toLocaleString('en-IN', { maximumFractionDigits: v < 10 && v % 1 ? 1 : 0 })}${r.unit ? (r.unit.startsWith('/') ? r.unit : ` ${r.unit}`) : ''}`;
   return (
     <div className="mt-5">
-      <div className="num text-[1.7rem] font-semibold leading-none tracking-tight text-[var(--civic)]">{c.text}</div>
+      <div className="num text-[1.7rem] font-semibold leading-none tracking-tight text-[var(--civic)]">{change}</div>
       <div className="mt-1.5 text-[13px] text-[var(--color-ink-2)]">{r.label}</div>
       <div className="mt-3">
         {(
           [
-            ['Today', r.today, 'var(--selfish)'],
-            ['Adjusted', r.fix, 'var(--civic)'],
+            ['Today', today, 'var(--selfish)'],
+            ['Adjusted', fix, 'var(--civic)'],
           ] as const
         ).map(([label, v, color]) => (
           <div key={label} className="mt-1.5 grid grid-cols-[64px_minmax(0,1fr)_auto] items-center gap-2 text-[12px]">

@@ -2,18 +2,18 @@
 
 An interactive, simulated look at the six everyday road habits that jam Bengaluru, and how a few seconds of patience unjams it.
 
-Each habit is a **traffic microsimulation** (not real-time data), told as a guided walkthrough on one large 3D stage: the situation, what goes wrong today, what it costs, the fix, the result, and a result card. Call-outs are pinned to the actual vehicles, and vehicles are coloured to explain what they are doing. Behind the stage run two worlds of the same road: *status quo* (nobody adjusts) and *swalpa adjust* (a share of drivers you choose with a slider). Both get exactly the same vehicles arriving at the same moments. Only behaviour differs, and the numbers update live. Day view by default; the sun/moon button switches to night.
+Each habit is a **traffic microsimulation** (not real-time data), told as a guided walkthrough on one large 3D stage: the situation, what goes wrong today, what it costs, the fix, the result, and a result card. Call-outs are pinned to the actual vehicles, and vehicles are coloured to explain what they are doing. Behind the stage run two worlds of the same road: _status quo_ (nobody adjusts) and _swalpa adjust_ (a share of drivers you choose with a slider). Both get exactly the same vehicles arriving at the same moments. Only behaviour differs, and the numbers update live. Day view by default; the sun/moon button switches to night.
 
-| # | Habit | What the simulation shows |
-|---|---|---|
-| 01 | **The Zipper:** merging at Namma Metro barricades | nose-to-nose stand-offs vs one-by-one merging at speed |
-| 02 | **The Box:** entering a junction you can't exit | four junctions locking into gridlock vs side streets that keep flowing |
-| 03 | **Free Left:** straight-goers parked in the free-left lane | left-turners stuck behind a red they never needed |
-| 04 | **Lane & Gap:** lane-hopping and tailgating | stop-and-go "phantom jams" vs smooth flow at the same density |
-| 05 | **The Bay:** buses and autos stopping in the lane | a running lane deleted vs a proper bus bay |
-| 06 | **Red Means Red:** amber-running, zebra-blocking, jaywalking | near misses with pedestrians vs a crossing that works |
+| #   | Habit                                                        | What the simulation shows                                              |
+| --- | ------------------------------------------------------------ | ---------------------------------------------------------------------- |
+| 01  | **The Zipper:** merging at Namma Metro barricades            | nose-to-nose stand-offs vs one-by-one merging at speed                 |
+| 02  | **The Box:** entering a junction you can't exit              | four junctions locking into gridlock vs side streets that keep flowing |
+| 03  | **Free Left:** straight-goers parked in the free-left lane   | left-turners stuck behind a red they never needed                      |
+| 04  | **Lane & Gap:** lane-hopping and tailgating                  | stop-and-go "phantom jams" vs smooth flow at the same density          |
+| 05  | **The Bay:** buses and autos stopping in the lane            | a running lane deleted vs a proper bus bay                             |
+| 06  | **Red Means Red:** amber-running, zebra-blocking, jaywalking | near misses with pedestrians vs a crossing that works                  |
 
-Also on the page: a simulated city grid on the landing screen that switches between *Today* and *Swalpa adjust*, Bengaluru's numbers as small charts (TomTom 2025, transport and traffic-police data), a hotspot map with the longest recorded queues, a "your few seconds" queue calculator, and sources. Off the page for now: the pledge-card generator (`RoadCode.tsx`) and the 90-second film (local only, see below).
+Also on the page: a simulated city grid on the landing screen that switches between _Today_ and _Swalpa adjust_, Bengaluru's numbers as small charts (TomTom 2025, transport and traffic-police data), a hotspot map with the longest recorded queues, a "your few seconds" queue calculator, and sources. Off the page for now: the pledge-card generator (`RoadCode.tsx`) and the 90-second film (local only, see below).
 
 ## Run it
 
@@ -65,7 +65,7 @@ node scripts/sharecurve.ts               # every slider position × 10 seeds →
 node scripts/dev/curvelines.ts           # the measured curves and the line each chapter says about them
 ```
 
-The "How many of us need to adjust?" chart under each chapter's slider is drawn from `src/data/curves.json`; re-run `scripts/sharecurve.ts` after changing a simulation.
+The "How many of us need to adjust?" chart under each chapter's slider is drawn from `src/data/curves.json`. So are the numbers on the six habit cards and in the teaser (via `src/data/results.ts`), so everything published agrees. Each value is the metric averaged over a 5-minute window (near-miss counts are totals), over 10 seeded runs. Re-run `scripts/sharecurve.ts` after changing a simulation; to run the six scenarios in parallel, write each to its own file with `OUT=… node scripts/sharecurve.ts 10 300 <id>` and combine them with `node scripts/sharecurve.ts --merge <files>`.
 
 Every call-out in the guided chapters is checked against the simulation it points at:
 

@@ -3,6 +3,7 @@
 // Pure TypeScript so scripts/dev/teasercheck.ts can replay it headless.
 import { STORIES, type StoryStep } from '../data/stories.ts';
 import type { Rect } from '../render/Stage.ts';
+import { resultOf } from '../data/results.ts';
 
 export interface Shot {
   dur: number;
@@ -42,6 +43,14 @@ const GRID: Rect = { minX: -128, maxX: 128, minY: -84, maxY: 84 };
 
 // the lane-hopping road is long and thin: frame a shorter stretch so it fills a square
 const LANES: Rect = { minX: -30, maxX: 30, minY: -12, maxY: 0 };
+
+/** The big result number for a habit, from the same measured curves as the site's cards. */
+const stampOf = (id: string, rest: string, at: number): Shot['stamp'] => {
+  const r = resultOf(id);
+  if (Math.round(r.fix) === 0) return { value: `${Math.round(r.today)} → 0`, label: rest, at };
+  const [value, ...word] = r.change.split(' ');
+  return { value, label: `${word.join(' ')} ${rest}`, at };
+};
 
 /** A shot framed like a chapter step (any field can be overridden). */
 const from = (id: string, step: number, s: Partial<Shot> & Pick<Shot, 'dur' | 'title'>): Shot => {
@@ -90,7 +99,7 @@ export const SCENES: Scene[] = [
     warmup: 480,
     shots: [
       from('zipper', 1, { dur: 4.8, tag: 'today', title: 'Forcing your way in at a merge', only: /Stand-off|Forces|Slams|early/ }),
-      from('zipper', 3, { dur: 5.4, tag: 'fix', title: 'Taking turns, like a zipper', stamp: { value: '84%', label: 'shorter queue', at: 2.0 } }),
+      from('zipper', 3, { dur: 5.4, tag: 'fix', title: 'Taking turns, like a zipper', stamp: stampOf('zipper', 'queue', 2.0) }),
     ],
   },
   {
@@ -101,7 +110,7 @@ export const SCENES: Scene[] = [
     warmup: 438,
     shots: [
       from('gridlock', 1, { dur: 4.8, tag: 'today', title: 'Entering a junction you can’t leave' }),
-      from('gridlock', 3, { dur: 5.4, tag: 'fix', title: 'Waiting until there’s room', stamp: { value: '9×', label: 'more vehicles get through', at: 2.0 } }),
+      from('gridlock', 3, { dur: 5.4, tag: 'fix', title: 'Waiting until there’s room', stamp: stampOf('gridlock', 'vehicles get through', 2.0) }),
     ],
   },
   {
@@ -119,7 +128,7 @@ export const SCENES: Scene[] = [
         region: LANES,
         pitch: 0.9,
         yaw: -0.25,
-        stamp: { value: '56%', label: 'faster on the same road', at: 2.0 },
+        stamp: stampOf('phantom', 'on the same road', 2.0),
       }),
     ],
   },
@@ -135,7 +144,7 @@ export const SCENES: Scene[] = [
         tag: 'fix',
         title: 'Keep the free left free',
         only: /Turns left/,
-        stamp: { value: '77%', label: 'shorter wait to turn left', at: 0.3 },
+        stamp: stampOf('freeleft', 'wait to turn left', 0.3),
       }),
     ],
   },
@@ -144,9 +153,7 @@ export const SCENES: Scene[] = [
     scenario: 'busbay',
     seed: 15,
     warmup: 140,
-    shots: [
-      from('busbay', 3, { dur: 2.5, tag: 'fix', title: 'Stop in the bay, not the lane', stamp: { value: '52%', label: 'faster past the bus stop', at: 0.3 } }),
-    ],
+    shots: [from('busbay', 3, { dur: 2.5, tag: 'fix', title: 'Stop in the bay, not the lane', stamp: stampOf('busbay', 'past the bus stop', 0.3) })],
   },
   {
     id: 'zebra',
@@ -159,8 +166,8 @@ export const SCENES: Scene[] = [
         dur: 2.5,
         tag: 'fix',
         title: 'Stop on amber, walk on green',
-        // simulated near misses over 6 minutes, averaged over three runs (scripts/simcompare.ts zebra)
-        stamp: { value: '35 → 0', label: 'near misses with walkers, in 6 min', at: 0.3 },
+        // simulated near misses over 6 minutes (warm-up plus window), averaged over the measured runs
+        stamp: stampOf('zebra', 'near misses with walkers, in 6 min', 0.3),
       }),
     ],
   },
